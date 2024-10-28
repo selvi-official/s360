@@ -1,0 +1,202 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: -apple-system, "system-ui", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  font-size: 14px;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.icon-button:hover .MuiSvgIcon-root {
+  /* transform: rotate(45deg);
+  transition: transform 0.2s ease-in-out; */
+  /* animation: spiral 1s ease-in-out; */
+  animation: pulse 0.5s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-10px, 0);
+  }
+  40% {
+    transform: translate(10px, 0px);
+  }
+  60% {
+    transform: translate(-10px, 0px);
+  }
+  80% {
+    transform: translate(10px, 0px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes spiral {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  50% {
+    transform: rotate(360deg) translate(0, 0);
+  }
+  100% {
+    transform: rotate(-360deg) translate(0, 0);
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.custom-datepicker__input-container {
+  background-color: lightblue;
+  color: rgb(17, 4, 50);
+}
+
+.no-data-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust height as needed */
+}
+
+.no-data-animation::after {
+  content: "";
+  /* display: block; */
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-radius: 50%;
+  border-left-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+.no-data-image {
+  animation: shake 4s infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.compressed {
+  /* Styles for compressed grid */
+  transform: scale(
+    0.8
+  ); /* For example, you can use scale to compress the size */
+  transition: transform 0.3s ease; /* Add a transition for smooth animation */
+}
+
+.my-sidebar {
+  height: 100vh; /* Adjust height as needed */
+  overflow: hidden;
+}
+
+/* Hide scrollbar for modern browsers */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+* {
+  -ms-overflow-style: none;
+}
+
+.react-select-container {
+  background-color: #2d3558;
+}
+
+.react-select-container-open > .react-select__control {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-select__menu-list {
+  background-color: #47588a;
+}
+
+table thead th {
+  background-color: #1b1d2a !important;
+  color: #1e6dff !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+.wapillaryscorehistoricalchart .recharts-legend-wrapper {
+  bottom: -18px !important;
+}
+
+@media screen and (max-width: 1560px) {
+  .filter-wrapper {
+    flex-direction: column !important;
+    > div:first-child {
+      align-self: flex-start;
+    }
+    > div:last-child {
+      align-self: flex-end;
+    }
+  }
+  .date-range-filter-wrapper {
+    padding-left: 0 !important;
+    /* margin-top: 10px !important; */
+  }
+}
+
+.grid-item-border,
+.grid-item-border-wrapper > div,
+.grid-item-inner-border-wrapper > .MuiGrid-item > div {
+  border: 1px solid #303c46;
+}

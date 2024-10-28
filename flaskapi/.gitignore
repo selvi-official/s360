@@ -1,0 +1,6 @@
+.env
+nohup.out
+*.tar.gz
+test_flaskapi.py
+venv/
+__pycache__/

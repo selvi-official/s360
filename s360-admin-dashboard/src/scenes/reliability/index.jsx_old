@@ -1,0 +1,177 @@
+import { Box, Button, useTheme, Table, TableBody, TableCell, TableHead, TableRow, Typography, TableContainer } from "@mui/material";
+import { tokens } from "../../theme";
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import Header from "../../components/Header";
+import { useState, useEffect } from "react";
+
+import Papa from 'papaparse';
+import DateRangePicker from "../../components/DateRange";
+import ProductMenu from "../../components/ProductMenu";
+import { fontSize } from "@mui/system";
+
+
+const Reliability = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const [fromDate, setFromDate] = useState(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
+  const [toDate, setToDate] = useState(new Date());
+
+  const [kpiData, setKpiData] = useState([]);
+  const [kpiColumnNames, setKpiColumnNames] = useState([]);
+
+  const [incData, setIncData] = useState([]);
+  const [incColumnNames, setIncColumnNames] = useState([]);
+
+
+  useEffect(() => {
+    handleButtonClick(fromDate, toDate)
+  }, []);
+
+  const handleButtonClick = (startDate, endDate) => {
+    // Make API call with startDate and endDate as params
+    // and set tableData state with the response data
+    // fetch(`https://my.api.mockaroo.com/sample_data?count=4&start=${startDate}&end=${endDate}`, {
+    fetch(`http://127.0.0.1:5006/reliability/kpi_data?count=4&start=${startDate}&end=${endDate}`, {
+
+      method: 'get',
+      headers: new Headers({
+        'X-API-Key': '37f91690'
+      })
+    })
+      .then((response) => response.text())
+      .then((csvresp) => {
+        const csvRows = csvresp.split("\n");
+
+        const columnNames = csvRows[0].split(','); // Get the first row and split it by commas
+        const dataRows = csvRows.slice(1, -1); // Remove the first row
+
+        setKpiColumnNames(columnNames);
+        setKpiData(dataRows.map((row) => row.split(','))); // Split each row by commas
+      });
+
+    // fetch(`https://my.api.mockaroo.com/sample_data?count=9&start=${startDate}&end=${endDate}`, {
+    fetch(`http://127.0.0.1:5006/reliability/inc_data?count=4&start=${startDate}&end=${endDate}`, {
+      method: 'get',
+      headers: new Headers({
+        'X-API-Key': '37f91690'
+      })
+    })
+      .then((response) => response.text())
+      .then((csvresp) => {
+        const csvRows = csvresp.split("\n");
+
+        const columnNames = csvRows[0].split(','); // Get the first row and split it by commas
+        const dataRows = csvRows.slice(1, -1); // Remove the first row
+
+        setIncColumnNames(columnNames);
+        setIncData(dataRows.map((row) => row.split(','))); // Split each row by commas
+      });
+
+  };
+
+
+
+
+  return (
+    <Box m="10px" display="grid" gap="20px">
+
+      <Box display="flex" justifyContent="space-between" alignItems="center" >
+        <Header title="Reliability" variant='h1' />
+
+
+        <Box display="flex" flexDirection="row" alignItems="flex-start">
+          <ProductMenu />
+          <DateRangePicker onSubmit={handleButtonClick} />
+
+          <Box m='2' alignSelf='center'>
+            <Button startIcon={<DownloadOutlinedIcon sx={{ m: 1, mr: "10px" }} />}
+              sx={{
+                backgroundColor: colors.blueAccent[700],
+                color: colors.grey[100],
+                fontSize: "14px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+              }}
+            >
+              Download Reports
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* KPI table */}
+
+      <Typography variant='h3' fontWeight='bold' color={colors.greenAccent[500]}>
+        KPI data
+      </Typography>
+      <Box alignItems="center">
+        <TableContainer sx={{ maxHeight: '400px' }} >
+          <Table stickyHeader >
+            <TableHead >
+              <TableRow>
+                {kpiColumnNames.map((columnName) => (
+                  <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '20px', backgroundColor: colors.blueAccent[400] }}
+                    key={columnName}>
+                    {columnName}
+                  </TableCell>
+                ))}
+
+              </TableRow>
+            </TableHead>
+            <TableBody sx={{ backgroundColor: colors.primary[400] }}>
+              {kpiData.map((row, index) => (
+                <TableRow hover key={index}>
+                  {row.map((cell, cellIndex) => (
+                    <TableCell align="center" key={cellIndex}>{cell}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+
+      {/* INC data */}
+
+      <Typography variant='h3' fontWeight='bold' color={colors.greenAccent[500]}>
+        Incident data
+      </Typography>
+      <Box alignItems="center">
+        <TableContainer sx={{ maxHeight: '400px' }} >
+          <Table stickyHeader>
+            <TableHead >
+              <TableRow>
+                {incColumnNames.map((columnName) => (
+                  <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '20px', backgroundColor: colors.blueAccent[400] }}
+                    key={columnName}>
+                    {columnName}
+                  </TableCell>
+                ))}
+
+              </TableRow>
+            </TableHead>
+            <TableBody sx={{ backgroundColor: colors.primary[400] }}>
+              {incData.map((row, index) => (
+                <TableRow hover key={index}>
+                  {row.map((cell, cellIndex) => (
+                    <TableCell align='center' key={cellIndex}>{cell}</TableCell>
+                  ))}
+                </TableRow>
+              ))}
+
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+
+    </Box>
+
+
+
+
+  );
+}
+
+export default Reliability

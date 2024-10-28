@@ -1,0 +1,10 @@
+mysql-connector
+python-dotenv
+flask
+flask_cors
+requests
+python-dateutil
+boto3
+pandas
+gunicorn
+flask-compress
